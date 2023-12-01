@@ -52,18 +52,14 @@ fun main() {
                         chunk = input[i].toString()
                     }
                 }
-            } else if (input[i].isDigit()) {
+            } else{
                 inputChunks += chunk
                 inputChunks += input[i].toString()
-                chunk = ""
-            } else {
-                inputChunks += chunk
-                chunk = input[i].toString()
+                break
             }
         }
-        inputChunks += chunk // Add the last chunk
 
-        val chunkResult = inputChunks.joinToString(separator = "")
+        val chunkResult = inputChunks.joinToString()
 
         val firstDigit = chunkResult.find { it.isDigit() }
 
@@ -81,18 +77,14 @@ fun main() {
                         chunk = reversedInput[i].toString()
                     }
                 }
-            } else if (reversedInput[i].isDigit()) {
-                inputChunks2 += chunk
-                inputChunks2 += reversedInput[i].toString()
-                chunk = ""
             } else {
                 inputChunks2 += chunk
-                chunk = reversedInput[i].toString()
+                inputChunks2 += reversedInput[i].toString()
+                break
             }
         }
-        inputChunks2 += chunk // Add the last chunk
 
-        val chunkResult2 = inputChunks2.joinToString(separator = "")
+        val chunkResult2 = inputChunks2.joinToString()
 
         val lastDigit = chunkResult2.find { it.isDigit() }
         return "${firstDigit.toString()}${lastDigit.toString()}"
