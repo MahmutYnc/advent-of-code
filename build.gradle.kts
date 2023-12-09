@@ -14,32 +14,38 @@ tasks {
     }
 
     task("generateNextDay") {
+        println("projectDir: $projectDir")
         doLast {
-            val prevDayNum = fileTree("$projectDir/src").matching {
-                include("Day*.kt")
-            }.maxOf {
-                val (prevDayNum) = Regex("Day(\\d\\d)").find(it.name)!!.destructured
-                prevDayNum.toInt()
-            }
+            val prevDayNum = File("$projectDir/src").listFiles { file ->
+                file.isDirectory && file.name.startsWith("day")
+            }?.maxOfOrNull {
+                it.name.removePrefix("day").toInt()
+            } ?: 0
+            println(prevDayNum)
             val newDayNum = String.format("%02d", prevDayNum + 1)
-            File("$projectDir/src", "Day$newDayNum.kt").writeText(
-                """
-    fun main() {
-        fun part1(input: List<String>): Int {
-            return 0
-        }
-        fun part2(input: List<String>): Int {
-            return 0
-        }
-        // test if implementation meets criteria from the description, like:
-        val testInput = readInput("resources/Day${newDayNum}_test")
-        check(part1(testInput) == 0)
-        val input = readInput("resources/Day$newDayNum")
-        println(part1(input))
-        println(part2(input))
+            mkdir("$projectDir/src/day$newDayNum")
+            File("$projectDir/src/day$newDayNum", "Day$newDayNum.kt").writeText(
+                """package day$newDayNum
+
+import readInput
+
+fun main() {
+    fun part1(input: List<String>): Int {
+        return 0
     }
-    """
+
+    fun part2(input: List<String>): Int {
+        return 0
+    }
+
+    val input = readInput("src/Day$newDayNum/_input.txt")
+    println(part1(input))
+    println(part2(input))
+}
+"""
             )
+            val inputFileName = "Day$newDayNum"+"_input.txt"
+            File("$projectDir/src/day$newDayNum", inputFileName).writeText("")
         }
     }
 }
