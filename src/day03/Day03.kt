@@ -139,13 +139,11 @@ fun main() {
                 .filter { it.value == '*' }
                 .map { it.key }
 
-            if (isStarInAdjacent.isNotEmpty()) {
-                for (k in isStarInAdjacent) {
-                    if (!gears.containsKey(k)) {
-                        gears[k] = mutableListOf()
-                    }
-                    gears[k]!!.add(value.toInt())
+            for (k in isStarInAdjacent) {
+                if (!gears.containsKey(k)) {
+                    gears[k] = mutableListOf()
                 }
+                gears[k]!!.add(value.toInt())
             }
         }
 
